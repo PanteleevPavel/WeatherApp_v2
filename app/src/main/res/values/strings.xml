@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp_v2</string>
+    <string name="app_name">Погода</string>
+    <string name="defaultTextForTextView">Городов: 0</string>
+    <string name="editTextHint">Здесь потом будет фильтрация :-)</string>
 </resources>
