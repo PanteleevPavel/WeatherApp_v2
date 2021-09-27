@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp_v2.R
 import com.example.weatherapp_v2.databinding.MainFragmentBinding
 import com.example.weatherapp_v2.ui.main.model.City
 import com.example.weatherapp_v2.ui.main.viewModel.AppState
@@ -15,14 +17,42 @@ import com.example.weatherapp_v2.ui.main.viewModel.MainViewModel
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    interface OnItemViewClickListener {
+        fun onItemViewClick(city: City)
+    }
+
+    companion object {
+        fun newInstance() = MainFragment()
+    }
+
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: MainFragmentAdapter
+    private val adapter: MainFragmentAdapter by lazy {
+        MainFragmentAdapter(object : OnItemViewClickListener {
+            @SuppressLint("ResourceType")
+            override fun onItemViewClick(city: City) {
+                activity?.supportFragmentManager?.apply {
+                    beginTransaction()
+                        .replace(
+                            R.id.action_container,
+                            DetailsFragment.newInstance(Bundle().apply {
+                                putParcelable(DetailsFragment.BUNDLE_EXTRA, city)
+                            })
+                        )
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
@@ -31,25 +61,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MainFragmentAdapter(object : OnItemViewClickListener {
-            @SuppressLint("ResourceType")
-            override fun onItemViewClick(city: City) {
-                val manager = activity?.supportFragmentManager
-                if (manager != null) {
-                    val bundle = Bundle()
-                    bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, city)
-                    manager.beginTransaction()
-                        .add(
-                            com.example.weatherapp_v2.R.layout.main_fragment,
-                            DetailsFragment.newInstance(bundle)
-                        )
-                        .addToBackStack("")
-                        .commitAllowingStateLoss()
-                }
-            }
-        })
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getCityFromLocalSource()
     }
@@ -58,26 +71,19 @@ class MainFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
+                binding.mainFragmentLoadingLayout.hide()
                 adapter.cityList = appState.cityData
                 binding.textView.text = "Городов: " + appState.cityData.size.toString()
             }
             is AppState.Loading -> {
-                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
+                binding.mainFragmentLoadingLayout.show()
             }
             is AppState.Error -> {
+                binding.mainFragmentLoadingLayout.hide()
                 Toast.makeText(context, "ОШИБКА ПРИ ЗАГРУЗКЕ ДАННЫХ", Toast.LENGTH_LONG).show()
                 viewModel.getCityFromLocalSource()
             }
         }
-    }
-
-    interface OnItemViewClickListener {
-        fun onItemViewClick(city: City)
-    }
-
-    companion object {
-        fun newInstance() = MainFragment()
     }
 
     override fun onDestroyView() {

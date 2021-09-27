@@ -14,12 +14,14 @@ data class City(
         parcel.readString().toString(),
         parcel.readDouble(),
         parcel.readDouble(),
+        parcel.readParcelable(Weather::class.java.classLoader)!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeDouble(lat)
         parcel.writeDouble(lon)
+        parcel.writeParcelable(weather, flags)
     }
 
     override fun describeContents(): Int {
@@ -37,43 +39,71 @@ data class City(
     }
 }
 
-fun getLocalCity(): List<City> {
-    return listOf(
-        City("Москва", 55.7522, 37.6156, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City(
-            "Санкт-Петербург",
-            59.9386,
-            30.3141,
-            Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-        ),
-        City(
-            "Екатеринбург",
-            56.8519,
-            60.6122,
-            Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-        ),
-        City("Сочи", 43.5992, 39.7257, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City(
-            "Фантазия",
-            44.5992,
-            39.7257,
-            Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-        ),
-        City("Уже", 45.5992, 40.7257, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City("Пошла", 46.5992, 41.7257, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City("Спать", 47.5992, 42.7257, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City(
-            "Проснулся",
-            48.5992,
-            43.7257,
-            Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-        ),
-        City("Просто", 49.5992, 44.7257, Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))),
-        City(
-            "Рандом :-)",
-            50.5992,
-            45.7257,
-            Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-        )
+fun getLocalCity(): List<City> = listOf(
+    City(
+        "Москва",
+        55.7522,
+        37.6156,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Санкт-Петербург",
+        59.9386,
+        30.3141,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Екатеринбург",
+        56.8519,
+        60.6122,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Сочи",
+        43.5992,
+        39.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Фантазия",
+        44.5992,
+        39.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Уже",
+        45.5992,
+        40.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Пошла",
+        46.5992,
+        41.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Спать",
+        47.5992,
+        42.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Проснулся",
+        48.5992,
+        43.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Просто",
+        49.5992,
+        44.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
+    ),
+    City(
+        "Рандом :-)",
+        50.5992,
+        45.7257,
+        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     )
-}
+)
