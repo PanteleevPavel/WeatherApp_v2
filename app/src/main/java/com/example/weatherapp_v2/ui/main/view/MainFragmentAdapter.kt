@@ -24,7 +24,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder =
         MainViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.recicler_fragment, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.recycler_fragment, parent, false)
         )
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
@@ -36,18 +36,20 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun bind(city: City) {
-            itemView.findViewById<TextView>(R.id.town).text = city.name
-            itemView.findViewById<TextView>(R.id.temp).text = "${city.weather.temperature}°"
-            itemView.findViewById<TextView>(R.id.space)
-                .setBackgroundColor(
-                    getColor(
-                        if (city.weather.temperature <= -5) SNOWY
-                        else if (city.weather.temperature > -5 && city.weather.temperature < 10) RAINY
-                        else SUNNY
+            itemView.apply {
+                findViewById<TextView>(R.id.town).text = city.name
+                findViewById<TextView>(R.id.temp).text = "${city.weather.temperature}°"
+                findViewById<TextView>(R.id.space)
+                    .setBackgroundColor(
+                        getColor(
+                            if (city.weather.temperature <= -5) SNOWY
+                            else if (city.weather.temperature > -5 && city.weather.temperature < 10) RAINY
+                            else SUNNY
+                        )
                     )
-                )
-            itemView.setOnClickListener {
-                onItemViewClickListener?.onItemViewClick(city)
+                setOnClickListener {
+                    onItemViewClickListener?.onItemViewClick(city)
+                }
             }
         }
 

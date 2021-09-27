@@ -2,4 +2,10 @@
 <resources>
     <dimen name="CityNameTextSize">20sp</dimen>
     <dimen name="tempTextSize">20sp</dimen>
+    <dimen name="margin_15_dp">15dp</dimen>
+    <dimen name="temperature_value_text_size">15sp</dimen>
+    <dimen name="feels_like_text_size">15sp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="text_size_35sp">35sp</dimen>
+    <dimen name="city_сoordinates_text_size">18sp</dimen>
 </resources>
