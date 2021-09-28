@@ -64,46 +64,4 @@ fun getLocalCity(): List<City> = listOf(
         39.7257,
         Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     ),
-    City(
-        "Фантазия",
-        44.5992,
-        39.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Уже",
-        45.5992,
-        40.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Пошла",
-        46.5992,
-        41.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Спать",
-        47.5992,
-        42.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Проснулся",
-        48.5992,
-        43.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Просто",
-        49.5992,
-        44.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    ),
-    City(
-        "Рандом :-)",
-        50.5992,
-        45.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
-    )
 )

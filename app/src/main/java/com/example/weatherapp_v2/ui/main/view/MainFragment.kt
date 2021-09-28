@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
     }
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
