@@ -44,24 +44,20 @@ fun getLocalCity(): List<City> = listOf(
         "Москва",
         55.7522,
         37.6156,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     ),
     City(
         "Санкт-Петербург",
         59.9386,
         30.3141,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     ),
     City(
         "Екатеринбург",
         56.8519,
         60.6122,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     ),
     City(
         "Сочи",
         43.5992,
         39.7257,
-        Weather(Random.nextInt(-30, 30), Random.nextInt(-30, 30))
     ),
 )
