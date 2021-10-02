@@ -23,6 +23,10 @@ const val FACT_WEATHER_EXTRA = "FACT WEATHER EXTRA"
 const val RESULT_EXTRA = "RESULT EXTRA"
 const val SUCCESS_RESULT = "SUCCESS RESULT"
 const val ERROR_EMPTY_DATA_RESULT = "ERROR_EMPTY_DATA_RESULT"
+const val ERROR_EMPTY_RESPONSE = "ERROR EMPTY RESPONSE"
+const val ERROR_EMPTY_INTENT = "ERROR EMPTY INTENT"
+const val ERROR_MALFORMED_URL = "ERROR MALFORMED URL"
+const val ERROR_RESPONSE = "ERROR RESPONSE"
 
 class MainService(name: String = "MainService") : IntentService(name) {
 
@@ -89,20 +93,26 @@ class MainService(name: String = "MainService") : IntentService(name) {
     }
 
     private fun onEmptyResponse() {
-        TODO("Not yet implemented")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(
+            Intent(DETAILS_INTENT_FILTER).putExtra(RESULT_EXTRA, ERROR_EMPTY_RESPONSE)
+        )
     }
 
     private fun onEmptyIntent() {
-        TODO("Not yet implemented")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(
+            Intent(DETAILS_INTENT_FILTER).putExtra(RESULT_EXTRA, ERROR_EMPTY_INTENT)
+        )
     }
 
     private fun onMalformedURL() {
-        TODO("Not yet implemented")
+        LocalBroadcastManager.getInstance(this).sendBroadcast(
+            Intent(DETAILS_INTENT_FILTER).putExtra(RESULT_EXTRA, ERROR_MALFORMED_URL)
+        )
     }
 
     private fun onErrorResponse(s: String) {
         LocalBroadcastManager.getInstance(this).sendBroadcast(
-            Intent(DETAILS_INTENT_FILTER).putExtra(RESULT_EXTRA, ERROR_EMPTY_DATA_RESULT)
+            Intent(DETAILS_INTENT_FILTER).putExtra(RESULT_EXTRA, ERROR_RESPONSE)
         )
     }
 
