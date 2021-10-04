@@ -42,10 +42,10 @@
             android:layout_marginTop="@dimen/margin_15_dp"
             android:textSize="@dimen/temperature_value_text_size"
             android:textStyle="bold"
-            tools:text="-20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates"/>
+            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates"
+            tools:text="-20" />
 
         <TextView
             android:id="@+id/feelsLikeValue"

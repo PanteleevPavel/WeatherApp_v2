@@ -8,4 +8,11 @@
     <dimen name="margin_5dp">5dp</dimen>
     <dimen name="text_size_35sp">35sp</dimen>
     <dimen name="city_сoordinates_text_size">18sp</dimen>
+    <dimen name="temp_layout_width">50dp</dimen>
+    <dimen name="space_layout_width">20dp</dimen>
+    <dimen name="space_layout_height">20dp</dimen>
+    <dimen name="card_view_layout_padding">8dp</dimen>
+    <dimen name="main_fragment_text_view_text_size">20sp</dimen>
+    <dimen name="main_fragment_edit_text_min_height">48dp</dimen>
+    <dimen name="main_fragment_layout_padding">8dp</dimen>
 </resources>

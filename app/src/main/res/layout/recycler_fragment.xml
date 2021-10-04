@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/card_view_layout_padding">
 
         <TextView
             android:id="@+id/town"
@@ -22,15 +22,15 @@
 
         <TextView
             android:id="@+id/temp"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/temp_layout_width"
             android:layout_height="wrap_content"
             android:textSize="@dimen/tempTextSize"
             tools:text="0°" />
 
         <TextView
             android:id="@+id/space"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_width="@dimen/space_layout_width"
+            android:layout_height="@dimen/space_layout_height" />
 
     </LinearLayout>
 
