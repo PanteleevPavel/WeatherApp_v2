@@ -1,22 +1,37 @@
 package com.example.weatherapp_v2.ui.main.model
 
 import com.example.weatherapp_v2.BuildConfig
-import okhttp3.Callback
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource {
-    fun getWeatherDetail(link: String, callback: Callback) {
 
-        val client = OkHttpClient()
+    private val weatherAPI = Retrofit.Builder()
+        .baseUrl("https://api.weather.yandex.ru/")
+        .addConverterFactory(
+            GsonConverterFactory.create(GsonBuilder().setLenient().create())
+        )
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().setLevel(
+                    if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
+                ))
+                .build()
+        )
+        .build()
+        .create(WeatherAPI::class.java)
 
-        val request = Request.Builder()
-            .url(link)
-            .addHeader("X-Yandex-API-Key", BuildConfig.WEATHER_YANDEX_API_KEY)
-            .get()
-            .build()
+    fun getWeatherDetail(lat: Double, lon: Double, callback: Callback<WeatherDTO>) {
 
-        client.newCall(request).enqueue(callback)
+        weatherAPI.getWeather(BuildConfig.WEATHER_YANDEX_API_KEY, lat, lon).enqueue(callback)
     }
 
 }

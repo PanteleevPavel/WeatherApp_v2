@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.api.load
 import com.example.weatherapp_v2.databinding.DetailFragmentBinding
 import com.example.weatherapp_v2.ui.main.model.City
 import com.example.weatherapp_v2.ui.main.viewModel.AppState
@@ -63,6 +64,7 @@ class DetailsFragment : Fragment() {
                 val city = appState.cityData.first()
                 val weather = appState.cityData.first().weather
                 with(binding) {
+                    imageView.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
                     cityName.text = city.name
                     cityCoordinates.text = "Широта/Долгота:\n ${city.lat} / ${city.lon}"
                     condition.text = weather.condition
