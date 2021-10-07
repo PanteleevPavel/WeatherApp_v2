@@ -1,43 +1,15 @@
 package com.example.weatherapp_v2.ui.main.model
 
-import android.os.Parcel
 import android.os.Parcelable
-import kotlin.random.Random
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class City(
     val name: String,
     val lat: Double,
     val lon: Double,
     val weather: Weather = Weather(0, 0)
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readDouble(),
-        parcel.readDouble(),
-        parcel.readParcelable(Weather::class.java.classLoader)!!
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeDouble(lat)
-        parcel.writeDouble(lon)
-        parcel.writeParcelable(weather, flags)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<City> {
-        override fun createFromParcel(parcel: Parcel): City {
-            return City(parcel)
-        }
-
-        override fun newArray(size: Int): Array<City?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+) : Parcelable
 
 fun getLocalCity(): List<City> = listOf(
     City(

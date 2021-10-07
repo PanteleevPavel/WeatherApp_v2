@@ -20,18 +20,6 @@
             android:textStyle="bold"
             tools:text="Город" />
 
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="@dimen/temp_layout_width"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/tempTextSize"
-            tools:text="0°" />
-
-        <TextView
-            android:id="@+id/space"
-            android:layout_width="@dimen/space_layout_width"
-            android:layout_height="@dimen/space_layout_height" />
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
