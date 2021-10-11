@@ -15,4 +15,5 @@
     <dimen name="main_fragment_text_view_text_size">20sp</dimen>
     <dimen name="main_fragment_edit_text_min_height">48dp</dimen>
     <dimen name="main_fragment_layout_padding">8dp</dimen>
+    <dimen name="condition_value_text_size">15sp</dimen>
 </resources>

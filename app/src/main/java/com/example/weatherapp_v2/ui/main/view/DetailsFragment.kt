@@ -1,19 +1,18 @@
 package com.example.weatherapp_v2.ui.main.view
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.lifecycle.ViewModelProvider
+import coil.api.load
 import com.example.weatherapp_v2.databinding.DetailFragmentBinding
-import com.example.weatherapp_v2.ui.main.model.*
+import com.example.weatherapp_v2.ui.main.model.City
+import com.example.weatherapp_v2.ui.main.viewModel.AppState
+import com.example.weatherapp_v2.ui.main.viewModel.DetailViewModel
 
 class DetailsFragment : Fragment() {
 
@@ -30,28 +29,8 @@ class DetailsFragment : Fragment() {
 
     private var _binding: DetailFragmentBinding? = null
     private val binding get() = _binding!!
-    private val localResultBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.getStringExtra(RESULT_EXTRA)) {
-                SUCCESS_RESULT -> {
-                    intent.getParcelableExtra<WeatherDTO.FactDTO>(FACT_WEATHER_EXTRA)?.let {
-                        displayWeather(it)
-                    }
-                }
-                ERROR_EMPTY_DATA_RESULT -> {
-                    Toast.makeText(context, "Error data load", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
-            localResultBroadcastReceiver, IntentFilter(
-                DETAILS_INTENT_FILTER
-            )
-        )
+    private val viewModel: DetailViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(DetailViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -66,40 +45,47 @@ class DetailsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<City>(BUNDLE_EXTRA)?.let { city ->
-            with(binding) {
-                cityName.text = city.name
-                cityCoordinates.text =
-                    "Широта/Долгота: \n" + city.lat.toString() + " ; " + city.lon.toString()
-                getWeather(city.lat, city.lon)
+        val city = arguments?.getParcelable(BUNDLE_EXTRA) ?: City()
+
+        viewModel.liveData.observe(viewLifecycleOwner) { state ->
+            renderData(state)
+        }
+
+        viewModel.getWeatherFromRemoteSource(city)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun renderData(appState: AppState) {
+
+        when (appState) {
+            is AppState.Success -> {
+                binding.mainView.show()
+                binding.loadingLayout.hide()
+                val city = appState.cityData.first()
+                val weather = appState.cityData.first().weather
+                with(binding) {
+                    imageView.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                    cityName.text = city.name
+                    cityCoordinates.text = "Широта/Долгота:\n ${city.lat} / ${city.lon}"
+                    condition.text = weather.condition
+                    temperatureValue.text = "Температура: " + weather.temperature.toString()
+                    feelsLikeValue.text = "Ощущается как: " + weather.feelsLike.toString()
+                }
+            }
+            is AppState.Loading -> {
+                binding.loadingLayout.show()
+                binding.mainView.hide()
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.show()
+                Toast.makeText(context, "ОШИБКА ПРИ ЗАГРУЗКЕ ДАННЫХ", Toast.LENGTH_LONG).show()
+                viewModel.getWeatherFromRemoteSource(City())
             }
         }
     }
 
-    private fun getWeather(lat: Double, lon: Double) {
-        binding.mainView.hide()
-        binding.loadingLayout.show()
-
-        requireActivity().startService(Intent(requireContext(), MainService::class.java).apply {
-            putExtra(LATITUDE_EXTRA, lat).putExtra(LONGITUDE_EXTRA, lon)
-        })
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun displayWeather(fact: WeatherDTO.FactDTO) {
-        binding.mainView.show()
-        binding.loadingLayout.hide()
-
-        with(binding) {
-            temperatureValue.text = "Температура: " + fact.temp.toString() + "°C"
-            feelsLikeValue.text = "Ощущается как: " + fact.feels_like.toString() + "°C"
-        }
-    }
-
     override fun onDestroy() {
-        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(
-            localResultBroadcastReceiver
-        )
         super.onDestroy()
+        _binding = null
     }
 }
