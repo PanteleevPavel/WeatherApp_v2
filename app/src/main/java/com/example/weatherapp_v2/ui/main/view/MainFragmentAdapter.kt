@@ -31,7 +31,6 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
     override fun getItemCount(): Int = cityList.size
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @SuppressLint("SetTextI18n")
         fun bind(city: City) {
             itemView.apply {
                 findViewById<TextView>(R.id.town).text = city.name

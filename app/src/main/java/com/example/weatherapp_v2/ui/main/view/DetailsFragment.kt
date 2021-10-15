@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
+import com.example.weatherapp_v2.R
 import com.example.weatherapp_v2.databinding.DetailFragmentBinding
 import com.example.weatherapp_v2.ui.main.model.City
 import com.example.weatherapp_v2.ui.main.viewModel.AppState
@@ -54,7 +55,6 @@ class DetailsFragment : Fragment() {
         viewModel.getWeatherFromRemoteSource(city)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun renderData(appState: AppState) {
 
         when (appState) {
@@ -66,11 +66,14 @@ class DetailsFragment : Fragment() {
                 with(binding) {
                     imageView.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
                     cityName.text = city.name
-                    cityCoordinates.text = "Широта/Долгота:\n ${city.lat} / ${city.lon}"
+                    cityCoordinates.text =
+                        resources.getString(R.string.cityCoordinates, city.lat, city.lon)
                     condition.text = weather.condition
-                    temperatureValue.text = "Температура: " + weather.temperature.toString()
-                    feelsLikeValue.text = "Ощущается как: " + weather.feelsLike.toString()
+                    temperatureValue.text =
+                        resources.getString(R.string.temperature, weather.temperature)
+                    feelsLikeValue.text = resources.getString(R.string.feelsLike, weather.feelsLike)
                 }
+                viewModel.saveWeather(city)
             }
             is AppState.Loading -> {
                 binding.loadingLayout.show()
