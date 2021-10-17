@@ -2,6 +2,8 @@ package com.example.weatherapp_v2.ui.main.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +76,8 @@ class MainFragment : Fragment() {
                 adapter.cityList = appState.cityData
                 binding.textView.text =
                     resources.getString(R.string.cityNumbers, appState.cityData.size)
+
+                addFilter(appState.cityData)
             }
             is AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.show()
@@ -84,6 +88,30 @@ class MainFragment : Fragment() {
                 viewModel.getCityFromLocalSource()
             }
         }
+    }
+
+    private fun addFilter(cityList: List<City>) {
+        binding.editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                applyFilter(s.toString(), cityList)
+            }
+        }
+        )
+    }
+
+    fun applyFilter(s: String, cityList: List<City>) {
+
+        val filteredCityList: MutableList<City> = mutableListOf()
+
+        for (city in cityList) {
+            if (city.name.contains(other = s, ignoreCase = true)) {
+                filteredCityList.add(city)
+            }
+        }
+
+        adapter.cityList = filteredCityList
     }
 
     override fun onDestroyView() {
