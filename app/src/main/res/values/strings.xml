@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Погода</string>
     <string name="defaultTextForTextView">Городов: 0</string>
-    <string name="editTextHint">Здесь потом будет фильтрация :-)</string>
+    <string name="editTextHint">Поиск</string>
     <string name="cityNumbers">Городов: %d</string>
     <string name="temperature">Температура: %d°С</string>
     <string name="feelsLike">Ощущается как: %d°С</string>
     <string name="cityCoordinates">Широта/Долгота:\n%g / %g</string>
     <string name="historyTemperatureText">%d°С</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="titleHistoryButton">History</string>
+    <string name="titleLocationButton">Location</string>
 </resources>
