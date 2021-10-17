@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
                 activity?.supportFragmentManager?.apply {
                     beginTransaction()
                         .replace(
-                            R.id.action_container,
+                            R.id.container,
                             DetailsFragment.newInstance(Bundle().apply {
                                 putParcelable(DetailsFragment.BUNDLE_EXTRA, city)
                             })
@@ -67,13 +67,13 @@ class MainFragment : Fragment() {
         viewModel.getCityFromLocalSource()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.hide()
                 adapter.cityList = appState.cityData
-                binding.textView.text = "Городов: " + appState.cityData.size.toString()
+                binding.textView.text =
+                    resources.getString(R.string.cityNumbers, appState.cityData.size)
             }
             is AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.show()
