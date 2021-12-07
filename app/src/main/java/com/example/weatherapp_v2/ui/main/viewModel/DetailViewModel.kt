@@ -12,8 +12,6 @@ import retrofit2.Response
 import java.text.ParseException
 import java.util.*
 
-const val MAIN_LINK = "https://api.weather.yandex.ru/v2/forecast?"
-
 class DetailViewModel : ViewModel() {
 
     private val repository: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource())
@@ -67,15 +65,23 @@ class DetailViewModel : ViewModel() {
     }
 
     fun saveWeather(city: City) {
-        localRepository.saveEntity(
-            HistoryEntity(
-                0,
-                city.name,
-                city.weather.temperature,
-                city.weather.condition,
-                Date().time,
+        city.name?.let {
+            city.weather?.let { it1 ->
+                city.weather.condition?.let { it2 ->
+                    HistoryEntity(
+                        0,
+                        it,
+                        it1.temperature,
+                        it2,
+                        Date().time,
+                    )
+                }
+            }
+        }?.let {
+            localRepository.saveEntity(
+                it
             )
-        )
+        }
     }
 
 }

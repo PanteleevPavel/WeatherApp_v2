@@ -68,10 +68,17 @@ class DetailsFragment : Fragment() {
                     cityName.text = city.name
                     cityCoordinates.text =
                         resources.getString(R.string.cityCoordinates, city.lat, city.lon)
-                    condition.text = weather.condition
-                    temperatureValue.text =
-                        resources.getString(R.string.temperature, weather.temperature)
-                    feelsLikeValue.text = resources.getString(R.string.feelsLike, weather.feelsLike)
+                    if (weather != null) {
+                        condition.text = weather.condition
+                    }
+                    if (weather != null) {
+                        temperatureValue.text =
+                            resources.getString(R.string.temperature, weather.temperature)
+                    }
+                    if (weather != null) {
+                        feelsLikeValue.text =
+                            resources.getString(R.string.feelsLike, weather.feelsLike)
+                    }
                 }
                 viewModel.saveWeather(city)
             }
