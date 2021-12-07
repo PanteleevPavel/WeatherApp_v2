@@ -106,7 +106,7 @@ class MainFragment : Fragment() {
         val filteredCityList: MutableList<City> = mutableListOf()
 
         for (city in cityList) {
-            if (city.name.contains(other = s, ignoreCase = true)) {
+            if (city.name?.contains(other = s, ignoreCase = true) == true) {
                 filteredCityList.add(city)
             }
         }
